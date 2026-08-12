@@ -496,7 +496,7 @@ if ($busca !== '') {
 
                 <?php foreach ($resultados as $obra): ?>
 
-                    <a href="#" class="result-card">
+                    <a href="obra.php" class="result-card">
 
                         <div class="cover"></div>
 

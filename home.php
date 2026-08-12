@@ -320,13 +320,13 @@ $siteName = "Webtoonsz";
                 <div class="cover"></div>
                 <p class="card-name">Nome da obra</p>
                 <p class="artist">@nome_artista</p>
-            </a>
-
-            <a href="#" class="card">
+            
+            
+                <a href="obra.php" class="card">
                 <div class="cover"></div>
                 <p class="card-name">Nome da obra</p>
-                <p class="artist">@nome_artista</p>
-            </a>
+                 <p class="artist">@nome_artista</p>
+                </a>
 
             <a href="#" class="card">
                 <div class="cover"></div>
@@ -367,7 +367,7 @@ $siteName = "Webtoonsz";
 
         <div class="cards">
 
-            <a href="#" class="card">
+           <a href="obra.php?pagina=atualizacoes" class="card">
                 <div class="cover news-cover"></div>
                 <div class="news-info">
                     <p class="news-title">Novo capítulo</p>
@@ -375,7 +375,7 @@ $siteName = "Webtoonsz";
                 </div>
             </a>
 
-            <a href="#" class="card">
+            <a href="obra.php?pagina=atualizacoes" class="card">
                 <div class="cover news-cover"></div>
                 <div class="news-info">
                     <p class="news-title">Aviso do artista</p>
@@ -383,7 +383,7 @@ $siteName = "Webtoonsz";
                 </div>
             </a>
 
-            <a href="#" class="card">
+            <a href="obra.php?pagina=atualizacoes" class="card">
                 <div class="cover news-cover"></div>
                 <div class="news-info">
                     <p class="news-title">Nova atualização</p>
@@ -391,7 +391,7 @@ $siteName = "Webtoonsz";
                 </div>
             </a>
 
-            <a href="#" class="card">
+           <a href="obra.php?pagina=atualizacoes" class="card">
                 <div class="cover news-cover"></div>
                 <div class="news-info">
                     <p class="news-title">Novo capítulo</p>
@@ -399,7 +399,7 @@ $siteName = "Webtoonsz";
                 </div>
             </a>
 
-            <a href="#" class="card">
+            <a href="obra.php?pagina=atualizacoes" class="card">
                 <div class="cover news-cover"></div>
                 <div class="news-info">
                     <p class="news-title">Aviso</p>
@@ -407,7 +407,7 @@ $siteName = "Webtoonsz";
                 </div>
             </a>
 
-            <a href="#" class="card">
+           <a href="obra.php?pagina=atualizacoes" class="card">
                 <div class="cover news-cover"></div>
                 <div class="news-info">
                     <p class="news-title">Atualização</p>
