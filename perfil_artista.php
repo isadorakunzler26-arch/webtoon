@@ -1,5 +1,5 @@
 <?php
-// Webtoonsz — Perfil do artista
+// perfil do artista
 $siteName = "Webtoonsz";
 
 $obras = [
@@ -70,7 +70,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             box-shadow: 0 25px 60px rgba(0,0,0,.28);
         }
 
-        /* TOPO */
+
         .topbar {
             display: flex;
             align-items: center;
@@ -115,7 +115,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             font-weight: 700;
         }
 
-        /* PERFIL */
+
         .profile-content {
             padding-top: 22px;
         }
@@ -180,7 +180,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             font-size: .76rem;
         }
 
-        /* SEÇÕES */
+     
         .section {
             margin-top: 30px;
         }
@@ -212,7 +212,8 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             color: var(--hyper-magenta);
         }
 
-        /* OBRAS */
+    
+        
         .works-list {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -275,7 +276,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             font-size: .64rem;
         }
 
-        /* BOTÃO + */
+    
         .add-work {
             height: 145px;
             border: 1px dashed rgba(227,217,252,.28);
@@ -322,7 +323,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             transform: translateY(-4px);
         }
 
-        /* FAVORITADAS */
+      
         .favorites {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -334,7 +335,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             height: 125px;
         }
 
-        /* AÇÕES */
+ 
         .actions {
             display: flex;
             justify-content: center;
@@ -429,7 +430,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
 
     <main class="profile-card">
 
-        <!-- TOPO -->
+     
         <header class="topbar">
 
             <a href="home.php" class="top-button">
@@ -445,7 +446,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
 
         <section class="profile-content">
 
-            <!-- DADOS DO ARTISTA -->
+           
             <div class="profile-main">
 
                 <div>
@@ -477,7 +478,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             </div>
 
 
-            <!-- MINHAS OBRAS -->
+          
             <section class="section">
 
                 <div class="section-header">
@@ -511,7 +512,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
                     <?php endforeach; ?>
 
 
-                    <!-- ADICIONAR OBRA -->
+                
                     <a href="adicionar_obra.php" class="add-work">
 
                         <span class="plus">+</span>
@@ -525,7 +526,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             </section>
 
 
-            <!-- FAVORITADAS -->
+           
             <section class="section">
 
                 <div class="section-header">
@@ -559,7 +560,7 @@ $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
             </section>
 
 
-            <!-- AÇÕES -->
+           
             <div class="actions">
 
                 <a href="adicionar_obra.php" class="action-button artist-button">

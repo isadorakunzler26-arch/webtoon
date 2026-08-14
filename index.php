@@ -1,5 +1,5 @@
 <?php
-// Webtoonsz - Página inicial 
+// inicial 
 
 
 $siteName = "Webtoonsz";

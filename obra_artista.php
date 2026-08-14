@@ -1,6 +1,5 @@
 <?php
-// Webtoonsz — Área da obra do artista
-// Front-end navegável, sem back-end nesta etapa.
+// obra do artista
 
 $modo = $_GET['modo'] ?? 'obra';
 
@@ -77,7 +76,7 @@ $atualizacoes = [
             box-shadow: 0 25px 60px rgba(0,0,0,.28);
         }
 
-        /* TOPO */
+      
         .topbar {
             display: flex;
             align-items: center;
@@ -120,7 +119,6 @@ $atualizacoes = [
             background: #cf5dff;
         }
 
-        /* OBRA */
         .work-content {
             display: grid;
             grid-template-columns: 270px 1fr;
@@ -217,7 +215,7 @@ $atualizacoes = [
             background: var(--hyper-magenta);
         }
 
-        /* EDIÇÃO */
+       
         .edit-content {
             display: grid;
             grid-template-columns: 270px 1fr;
@@ -303,7 +301,7 @@ $atualizacoes = [
             width: 100%;
         }
 
-        /* ATUALIZAÇÕES */
+    
         .updates {
             margin-top: 25px;
             padding-top: 22px;
@@ -398,7 +396,7 @@ $atualizacoes = [
 
         <?php if ($modo === 'obra'): ?>
 
-            <!-- PARTE DA OBRA — VISUALIZAÇÃO DO ARTISTA -->
+            
 
             <section class="work-content">
 
@@ -466,7 +464,7 @@ $atualizacoes = [
 
         <?php else: ?>
 
-            <!-- PARTE DA OBRA — EDIÇÃO -->
+         
 
             <section class="edit-content">
 

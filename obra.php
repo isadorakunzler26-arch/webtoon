@@ -1,5 +1,5 @@
 <?php
-// Webtoonsz — Detalhes da obra e últimas atualizações
+// obra e últimas atualizações
 $siteName = "Webtoonsz";
 
 $pagina = $_GET['pagina'] ?? 'obra';
@@ -219,7 +219,7 @@ $atualizacoes = [
             box-shadow: 0 10px 28px rgba(191,64,250,.28);
         }
 
-        /* ATUALIZAÇÕES */
+       
         .updates-page {
             padding: 25px;
             border: 1px solid var(--border);
@@ -352,7 +352,6 @@ $atualizacoes = [
 
     <?php if ($pagina === 'obra'): ?>
 
-        <!-- DETALHES DA OBRA -->
         <main class="obra-card">
 
             <div class="cover-area">
@@ -389,7 +388,6 @@ $atualizacoes = [
 
     <?php else: ?>
 
-        <!-- ÚLTIMAS ATUALIZAÇÕES -->
         <main class="updates-page">
 
             <div class="updates-header">

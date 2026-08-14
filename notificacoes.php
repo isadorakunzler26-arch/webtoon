@@ -1,5 +1,5 @@
 <?php
-// Tela de notificações
+// notificações
 $siteName = "Webtoonsz";
 
 $notificacoes = [

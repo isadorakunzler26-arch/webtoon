@@ -1,5 +1,5 @@
 <?php
-// Webtoonsz — Perfil do usuário
+// perfil do usuário
 $siteName = "Webtoonsz";
 $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
 
@@ -78,7 +78,7 @@ $favoritadas = [
                 inset 0 1px 0 rgba(255,255,255,.04);
         }
 
-        /* TOPO */
+      
         .topbar {
             display: flex;
             align-items: center;
@@ -119,7 +119,7 @@ $favoritadas = [
             background: var(--hyper-magenta);
         }
 
-        /* PERFIL */
+     
         .profile-content {
             padding-top: 25px;
         }
@@ -199,7 +199,7 @@ $favoritadas = [
             font-size: .78rem;
         }
 
-        /* MODO EDIÇÃO */
+  
         .edit-input,
         .edit-textarea {
             width: 100%;
@@ -228,7 +228,7 @@ $favoritadas = [
             box-shadow: 0 0 0 3px rgba(191,64,250,.10);
         }
 
-        /* AÇÕES */
+        
         .actions {
             display: flex;
             flex-direction: column;
@@ -272,7 +272,7 @@ $favoritadas = [
             background: #cf5dff;
         }
 
-        /* FAVORITADAS */
+     
         .favorites {
             margin-top: 34px;
         }
@@ -382,7 +382,6 @@ $favoritadas = [
 
     <main class="profile-card">
 
-        <!-- TOPO -->
         <header class="topbar">
 
             <a href="home.php" class="top-button">
@@ -410,7 +409,7 @@ $favoritadas = [
 
             <div class="profile-main">
 
-                <!-- FOTO -->
+             
                 <div class="<?= $editar ? 'avatar-area avatar-edit' : 'avatar-area' ?>">
                     <div class="avatar">
                         <?= $editar ? '✎' : '●' ?>
@@ -418,7 +417,6 @@ $favoritadas = [
                 </div>
 
 
-                <!-- INFORMAÇÕES -->
                 <div class="profile-info">
 
                     <?php if ($editar): ?>
@@ -502,7 +500,7 @@ $favoritadas = [
             </div>
 
 
-            <!-- AÇÕES -->
+           
             <div class="actions">
 
                 <a href="#" class="action-button artist-button">
@@ -516,7 +514,7 @@ $favoritadas = [
             </div>
 
 
-            <!-- FAVORITADAS -->
+       
             <section class="favorites">
 
                 <h2 class="favorites-title">
