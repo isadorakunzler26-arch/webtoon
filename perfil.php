@@ -1,21 +1,29 @@
 <?php
 // perfil do usuário
+require __DIR__ . '/auth.php';
+require __DIR__ . '/conexao.php';
+
 $siteName = "Webtoonsz";
+$u = requer_login($pdo);
 $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
+$flash = pegar_flash();
+$ehArtista = $u['tipo'] === 'artista';
 
-$perfil = [
-    "nome" => "Nome",
-    "usuario" => "Nome_usuario",
-    "biografia" => "Biografia do usuário",
-    "email" => "email@email.com"
-];
-
+// (provisório) favoritadas ainda estáticas
 $favoritadas = [
     "Nome da obra",
     "A Última Estrela",
     "Entre Dois Mundos",
     "Coração de Papel"
 ];
+
+function avatar_html(array $u, bool $editar): string
+{
+    if (!empty($u['foto'])) {
+        return '<img id="previewFoto" src="uploads/perfis/' . htmlspecialchars($u['foto']) . '" alt="Foto de perfil">';
+    }
+    return $editar ? '<span id="previewPlaceholder">✎</span>' : '●';
+}
 ?>
 
 <!DOCTYPE html>
@@ -373,6 +381,17 @@ $favoritadas = [
                 gap: 9px;
             }
         }
+    
+        .avatar { overflow: hidden; }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-edit label { cursor: pointer; display: block; }
+        .avatar-edit input[type=file] { display: none; }
+        .avatar-hint { margin-top: 8px; text-align: center; color: var(--muted); font-size: .66rem; }
+        .flash { margin-top: 16px; padding: 10px 14px; border-radius: 9px; font-size: .78rem; }
+        .flash.ok { background: rgba(191,64,250,.12); border: 1px solid rgba(191,64,250,.3); color: var(--periwinkle); }
+        .flash.erro { background: rgba(255,80,80,.10); border: 1px solid rgba(255,80,80,.3); color: #ffb3b3; }
+        .actions form { width: min(100%, 430px); display: flex; }
+        .actions form .action-button { width: 100%; }
     </style>
 </head>
 
@@ -384,38 +403,46 @@ $favoritadas = [
 
         <header class="topbar">
 
-            <a href="home.php" class="top-button">
-                Voltar
-            </a>
+            <a href="home.php" class="top-button">Voltar</a>
 
             <?php if ($editar): ?>
-
-                <a href="perfil.php" class="top-button save-button">
-                    Salvar
-                </a>
-
+                <button type="submit" form="formPerfil" class="top-button save-button">Salvar</button>
             <?php else: ?>
-
-                <a href="perfil.php?editar=1" class="top-button">
-                    Editar perfil
-                </a>
-
+                <a href="perfil.php?editar=1" class="top-button">Editar perfil</a>
             <?php endif; ?>
 
         </header>
 
+        <?php if ($flash): ?>
+            <div class="flash <?= $flash['tipo'] === 'ok' ? 'ok' : 'erro' ?>">
+                <?= htmlspecialchars($flash['mensagem']) ?>
+            </div>
+        <?php endif; ?>
 
         <section class="profile-content">
 
+            <?php if ($editar): ?>
+            <form id="formPerfil" action="perfil_salvar.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+            <?php endif; ?>
+
             <div class="profile-main">
 
-             
-                <div class="<?= $editar ? 'avatar-area avatar-edit' : 'avatar-area' ?>">
-                    <div class="avatar">
-                        <?= $editar ? '✎' : '●' ?>
+                <div>
+                    <div class="<?= $editar ? 'avatar-area avatar-edit' : 'avatar-area' ?>">
+                        <?php if ($editar): ?>
+                            <label for="foto" title="Alterar foto">
+                                <div class="avatar"><?= avatar_html($u, true) ?></div>
+                            </label>
+                            <input type="file" id="foto" name="foto" accept="image/jpeg,image/png,image/webp">
+                        <?php else: ?>
+                            <div class="avatar"><?= avatar_html($u, false) ?></div>
+                        <?php endif; ?>
                     </div>
+                    <?php if ($editar): ?>
+                        <p class="avatar-hint">Clique para trocar (JPG, PNG ou WEBP, até 2 MB)</p>
+                    <?php endif; ?>
                 </div>
-
 
                 <div class="profile-info">
 
@@ -423,74 +450,58 @@ $favoritadas = [
 
                         <div class="info-row">
                             <label for="nome">Nome:</label>
-                            <input
-                                class="edit-input"
-                                id="nome"
-                                type="text"
-                                value="<?= htmlspecialchars($perfil['nome']) ?>"
-                            >
+                            <input class="edit-input" id="nome" name="nome" type="text" maxlength="100" required
+                                   value="<?= htmlspecialchars($u['nome']) ?>">
                         </div>
 
                         <div class="info-row">
                             <label for="usuario">Usuário:</label>
-                            <input
-                                class="edit-input"
-                                id="usuario"
-                                type="text"
-                                value="<?= htmlspecialchars($perfil['usuario']) ?>"
-                            >
+                            <input class="edit-input" id="usuario" name="usuario" type="text" maxlength="30" required
+                                   value="<?= htmlspecialchars($u['usuario']) ?>">
                         </div>
 
                         <div class="info-row">
                             <label for="biografia">Biografia:</label>
-                            <textarea class="edit-textarea" id="biografia"><?= htmlspecialchars($perfil['biografia']) ?></textarea>
+                            <textarea class="edit-textarea" id="biografia" name="biografia" maxlength="300"><?= htmlspecialchars($u['biografia'] ?? '') ?></textarea>
                         </div>
 
                         <div class="info-row">
                             <label for="email">Email:</label>
-                            <input
-                                class="edit-input"
-                                id="email"
-                                type="email"
-                                value="<?= htmlspecialchars($perfil['email']) ?>"
-                            >
+                            <input class="edit-input" id="email" name="email" type="email" required
+                                   value="<?= htmlspecialchars($u['email']) ?>">
                         </div>
 
                         <div class="info-row">
                             <label for="senha">Senha:</label>
-                            <input
-                                class="edit-input"
-                                id="senha"
-                                type="password"
-                                placeholder="Senha"
-                            >
+                            <input class="edit-input" id="senha" name="senha" type="password"
+                                   placeholder="Deixe em branco para manter a atual" autocomplete="new-password">
                         </div>
 
                     <?php else: ?>
 
                         <div class="info-row">
                             <label>Nome:</label>
-                            <div class="info-value"><?= htmlspecialchars($perfil['nome']) ?></div>
+                            <div class="info-value"><?= htmlspecialchars($u['nome']) ?></div>
                         </div>
 
                         <div class="info-row">
                             <label>Usuário:</label>
-                            <div class="info-value"><?= htmlspecialchars($perfil['usuario']) ?></div>
+                            <div class="info-value"><?= htmlspecialchars($u['usuario']) ?></div>
                         </div>
 
                         <div class="info-row">
                             <label>Biografia:</label>
-                            <div class="info-value"><?= htmlspecialchars($perfil['biografia']) ?></div>
+                            <div class="info-value"><?= htmlspecialchars($u['biografia'] ?: 'Sem biografia ainda.') ?></div>
                         </div>
 
                         <div class="info-row">
                             <label>Email:</label>
-                            <div class="info-value"><?= htmlspecialchars($perfil['email']) ?></div>
+                            <div class="info-value"><?= htmlspecialchars($u['email']) ?></div>
                         </div>
 
                         <div class="info-row">
-                            <label>Senha:</label>
-                            <div class="info-value">••••••••</div>
+                            <label>Conta:</label>
+                            <div class="info-value"><?= $ehArtista ? 'Artista' : 'Leitor' ?></div>
                         </div>
 
                     <?php endif; ?>
@@ -499,46 +510,44 @@ $favoritadas = [
 
             </div>
 
+            <?php if ($editar): ?>
+            </form>
+            <?php endif; ?>
 
-           
+
             <div class="actions">
 
-                <a href="#" class="action-button artist-button">
-                    Evoluir a conta para artista
-                </a>
+                <?php if ($ehArtista): ?>
+                    <a href="obra_artista.php" class="action-button artist-button">
+                        Ir para minha área de artista
+                    </a>
+                <?php else: ?>
+                    <form action="evoluir_artista.php" method="post"
+                          onsubmit="return confirm('Evoluir sua conta para artista?');">
+                        <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+                        <button type="submit" class="action-button artist-button">
+                            Evoluir a conta para artista
+                        </button>
+                    </form>
+                <?php endif; ?>
 
-                <a href="index.php" class="action-button">
-                    Sair
-                </a>
+                <a href="logout.php" class="action-button">Sair</a>
 
             </div>
 
 
-       
             <section class="favorites">
 
-                <h2 class="favorites-title">
-                    Favoritadas
-                </h2>
+                <h2 class="favorites-title">Favoritadas</h2>
 
                 <div class="favorite-list">
 
                     <?php foreach ($favoritadas as $obra): ?>
-
                         <a href="#" class="favorite">
-
                             <div class="cover"></div>
-
-                            <p class="favorite-name">
-                                <?= htmlspecialchars($obra) ?>
-                            </p>
-
-                            <p class="role">
-                                @nome_artista
-                            </p>
-
+                            <p class="favorite-name"><?= htmlspecialchars($obra) ?></p>
+                            <p class="role">@nome_artista</p>
                         </a>
-
                     <?php endforeach; ?>
 
                 </div>
@@ -550,6 +559,27 @@ $favoritadas = [
     </main>
 
 </div>
+
+<?php if ($editar): ?>
+<script>
+    // pré-visualização da nova foto antes de salvar
+    document.getElementById('foto').addEventListener('change', function () {
+        const arquivo = this.files[0];
+        if (!arquivo) return;
+
+        const avatar = document.querySelector('.avatar');
+        let img = document.getElementById('previewFoto');
+
+        if (!img) {
+            avatar.innerHTML = '';
+            img = document.createElement('img');
+            img.id = 'previewFoto';
+            avatar.appendChild(img);
+        }
+        img.src = URL.createObjectURL(arquivo);
+    });
+</script>
+<?php endif; ?>
 
 </body>
 </html>
