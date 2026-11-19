@@ -52,6 +52,9 @@ function h($valor): string {
 <nav class="nav">
 <a class="btn" href="busca.php">Buscar obras</a>
 <?php if ($logado): ?>
+<a class="btn" href="favoritos.php">Favoritos</a>
+<a class="btn" href="atualizacoes.php">Atualizações</a>
+<a class="btn" href="notificacoes.php">Notificações</a>
 <a class="btn" href="perfil.php">Meu perfil</a>
 <a class="btn" href="logout.php">Sair</a>
 <?php else: ?>

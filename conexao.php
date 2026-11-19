@@ -2,8 +2,8 @@
 
 $host    = getenv('DB_HOST') ?: 'localhost';
 $banco   = getenv('DB_NAME') ?: 'webtoonsz';
-$usuario = getenv('DB_USER') ?: 'root';
-$senha   = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
+$usuario = getenv('DB_USER') ?: 'webtoonsz';
+$senha   = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '1234';
 
 try {
     $pdo = new PDO(

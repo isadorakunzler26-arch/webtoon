@@ -464,7 +464,6 @@ $siteName = "Webtoonsz";
             </a>
 
             <nav class="nav">
-                <a href="home.php" class="btn btn-login">Explorar sem cadastro</a>
                 <a href="login.php" class="btn btn-login">Entrar</a>
                 <a href="cadastro.php" class="btn btn-register">Cadastrar-se</a>
             </nav>

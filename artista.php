@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/conexao.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
@@ -32,10 +33,17 @@ $stmt = $pdo->prepare("
 $stmt->execute([$id]);
 $avisos = $stmt->fetchAll();
 
-function h($valor): string {
-    return htmlspecialchars((string)($valor ?? ''), ENT_QUOTES, 'UTF-8');
-}
 $logado = isset($_SESSION['usuario_id']);
+$usuarioAtual = $logado ? requer_login($pdo) : null;
+$seguindo = false;
+if ($logado && $usuarioAtual['id'] !== (int) $artista['id']) {
+    $stmt = $pdo->prepare('SELECT 1 FROM seguidores WHERE seguidor_id = ? AND artista_id = ?');
+    $stmt->execute([$usuarioAtual['id'], $artista['id']]);
+    $seguindo = (bool) $stmt->fetchColumn();
+}
+$stmt = $pdo->prepare('SELECT COUNT(*) FROM seguidores WHERE artista_id = ?');
+$stmt->execute([$artista['id']]);
+$totalSeguidores = (int) $stmt->fetchColumn();
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -62,6 +70,18 @@ $logado = isset($_SESSION['usuario_id']);
 <h1><?= h($artista['nome']) ?></h1>
 <p class="handle">@<?= h($artista['usuario']) ?> · Artista</p>
 <p class="bio"><?= nl2br(h($artista['biografia'] ?: 'Este artista ainda não adicionou uma biografia.')) ?></p>
+<p class="bio"><?= $totalSeguidores ?> seguidores</p>
+<?php if ($logado && $usuarioAtual['id'] !== (int) $artista['id']): ?>
+<form method="post" action="seguir_artista.php" style="margin-top:12px">
+<input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+<input type="hidden" name="artista_id" value="<?= (int)$artista['id'] ?>">
+<input type="hidden" name="acao" value="<?= $seguindo ? 'deixar' : 'seguir' ?>">
+<input type="hidden" name="voltar" value="artista.php?id=<?= (int)$artista['id'] ?>">
+<button type="submit" style="padding:10px 15px;border:0;border-radius:9px;background:#BF40FA;color:white;cursor:pointer"><?= $seguindo ? 'Deixar de seguir' : 'Seguir artista' ?></button>
+</form>
+<?php elseif (!$logado): ?>
+<p class="bio" style="margin-top:12px"><a style="color:#E3D9FC" href="login.php">Entre na sua conta</a> para seguir este artista.</p>
+<?php endif; ?>
 </div>
 </section>
 <section class="section">

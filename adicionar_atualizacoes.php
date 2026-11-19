@@ -276,7 +276,7 @@ $atualizacoes = [
     <main class="card">
 
         <header class="topbar">
-            <a href="obra_artista.php" class="button">
+            <a href="painel_artista.php" class="button">
                 Voltar
             </a>
         </header>

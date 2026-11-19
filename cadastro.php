@@ -1,5 +1,7 @@
 <?php
 // cadastro
+require __DIR__ . '/auth.php';
+$erro = flash('erro');
 $siteName = "Webtoonsz";
 ?>
 
@@ -242,6 +244,16 @@ $siteName = "Webtoonsz";
                 gap: 14px;
             }
         }
+        .erro {
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            border-radius: 9px;
+            background: rgba(255, 80, 80, 0.10);
+            border: 1px solid rgba(255, 80, 80, 0.30);
+            color: #ffb3b3;
+            font-size: 0.85rem;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -259,7 +271,9 @@ $siteName = "Webtoonsz";
                 Crie sua conta para acompanhar seus webtoons favoritos.
             </p>
 
-            <form class="form" action="home.php" method="get">
+            <form class="form" action="cadastro_processar.php" method="post">
+                <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+                <?php if ($erro): ?><p class="erro"><?= h($erro) ?></p><?php endif; ?>
 
                 <div class="field">
                     <label for="email">Email</label>

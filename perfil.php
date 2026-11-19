@@ -1,15 +1,22 @@
 <?php
-// perfil do usuário
+
 require __DIR__ . '/auth.php';
-require __DIR__ . '/conexao.php';
+require __DIR__ . '/conexao.php'; 
 
 $siteName = "Webtoonsz";
 $u = requer_login($pdo);
 $editar = isset($_GET['editar']) && $_GET['editar'] === '1';
-$flash = pegar_flash();
+$flash = null;
+$msgErro = flash('erro');
+$msgOk = flash('ok');
+if ($msgErro) {
+    $flash = ['tipo' => 'erro', 'mensagem' => $msgErro];
+} elseif ($msgOk) {
+    $flash = ['tipo' => 'ok', 'mensagem' => $msgOk];
+}
 $ehArtista = $u['tipo'] === 'artista';
 
-// (provisório) favoritadas ainda estáticas
+
 $favoritadas = [
     "Nome da obra",
     "A Última Estrela",
@@ -423,7 +430,7 @@ function avatar_html(array $u, bool $editar): string
 
             <?php if ($editar): ?>
             <form id="formPerfil" action="perfil_salvar.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+                <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
             <?php endif; ?>
 
             <div class="profile-main">
@@ -518,13 +525,13 @@ function avatar_html(array $u, bool $editar): string
             <div class="actions">
 
                 <?php if ($ehArtista): ?>
-                    <a href="obra_artista.php" class="action-button artist-button">
+                    <a href="painel_artista.php" class="action-button artist-button">
                         Ir para minha área de artista
                     </a>
                 <?php else: ?>
                     <form action="evoluir_artista.php" method="post"
                           onsubmit="return confirm('Evoluir sua conta para artista?');">
-                        <input type="hidden" name="csrf" value="<?= csrf_token() ?>">
+                        <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
                         <button type="submit" class="action-button artist-button">
                             Evoluir a conta para artista
                         </button>
@@ -562,7 +569,7 @@ function avatar_html(array $u, bool $editar): string
 
 <?php if ($editar): ?>
 <script>
-    // pré-visualização da nova foto antes de salvar
+   
     document.getElementById('foto').addEventListener('change', function () {
         const arquivo = this.files[0];
         if (!arquivo) return;

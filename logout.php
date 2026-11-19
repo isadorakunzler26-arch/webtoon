@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/auth.php';
+    require __DIR__ . '/auth.php';
 
-$_SESSION = [];
-session_destroy();
+    $_SESSION = [];
+    session_destroy();
 
-redirecionar('index.php');
+    redirecionar('index.php');

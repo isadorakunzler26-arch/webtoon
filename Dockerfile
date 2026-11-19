@@ -1,11 +1,11 @@
 FROM php:8.2-apache
-<<<<<<< HEAD
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
-    && docker-php-ext-install pdo_mysql mysqli \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j"$(nproc)" gd pdo_mysql mysqli \
     && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
@@ -20,13 +20,9 @@ RUN { \
 
 WORKDIR /var/www/html
 
-EXPOSE 80
+COPY . /var/www/html/
 
-=======
-RUN docker-php-ext-install pdo_mysql
-RUN a2enmod rewrite
-WORKDIR /var/www/html
-RUN echo "upload_max_filesize=8M" > /usr/local/etc/php/conf.d/uploads.ini && echo "post_max_size=10M" >> /usr/local/etc/php/conf.d/uploads.ini
+RUN mkdir -p uploads/perfis uploads/obras \
+    && chown -R www-data:www-data /var/www/html
+
 EXPOSE 80
->>>>>>> cc21d46c4ef1943831d6cb804870ba3ea6b84abc
-CMD ["apache2-foreground"]

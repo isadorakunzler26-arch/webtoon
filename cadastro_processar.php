@@ -6,6 +6,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirecionar('cadastro.php');
 }
 
+csrf_validar();
+
 $email     = trim($_POST['email'] ?? '');
 $usuario   = trim($_POST['usuario'] ?? '');
 $senha     = $_POST['senha'] ?? '';

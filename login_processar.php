@@ -6,7 +6,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirecionar('login.php');
 }
 
-$login = trim($_POST['usuario'] ?? '');   // email ou usuário
+csrf_validar();
+
+$login = trim($_POST['usuario'] ?? '');
 $senha = $_POST['senha'] ?? '';
 
 $stmt = $pdo->prepare('SELECT id, senha_hash FROM usuarios WHERE usuario = ? OR email = ?');

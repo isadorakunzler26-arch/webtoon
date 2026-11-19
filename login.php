@@ -1,5 +1,7 @@
 <?php
 //recuperação de senha
+require __DIR__ . '/auth.php';
+$erro = flash('erro');
 
 
 $etapa = $_GET['etapa'] ?? 'login';
@@ -294,6 +296,16 @@ $siteName = "Webtoonsz";
                 height: 45px;
             }
         }
+        .erro {
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            border-radius: 9px;
+            background: rgba(255, 80, 80, 0.10);
+            border: 1px solid rgba(255, 80, 80, 0.30);
+            color: #ffb3b3;
+            font-size: 0.85rem;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -311,7 +323,9 @@ $siteName = "Webtoonsz";
 
             <h1>Entrar</h1>
 
-            <form class="form" action="home.php" method="get">
+            <form class="form" action="login_processar.php" method="post">
+                <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
+                <?php if ($erro): ?><p class="erro"><?= h($erro) ?></p><?php endif; ?>
 
                 <div class="field">
                     <label for="usuario">Usuário</label>

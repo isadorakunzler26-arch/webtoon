@@ -373,7 +373,7 @@ $atualizacoes = [
 
         <header class="topbar">
 
-            <a href="perfil_artista.php" class="button">
+            <a href="painel_artista.php" class="button">
                 Voltar
             </a>
 
