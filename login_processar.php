@@ -1,26 +1,26 @@
-<?php
-require __DIR__ . '/auth.php';
-require __DIR__ . '/conexao.php';
+    <?php
+    require __DIR__ . '/auth.php';
+    require __DIR__ . '/conexao.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirecionar('login.php');
-}
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        redirecionar('login.php');
+    }
 
-csrf_validar();
+    csrf_validar();
 
-$login = trim($_POST['usuario'] ?? '');
-$senha = $_POST['senha'] ?? '';
+    $login = trim($_POST['usuario'] ?? '');
+    $senha = $_POST['senha'] ?? '';
 
-$stmt = $pdo->prepare('SELECT id, senha_hash FROM usuarios WHERE usuario = ? OR email = ?');
-$stmt->execute([$login, $login]);
-$u = $stmt->fetch();
+    $stmt = $pdo->prepare('SELECT id, senha_hash FROM usuarios WHERE usuario = ? OR email = ?');
+    $stmt->execute([$login, $login]);
+    $u = $stmt->fetch();
 
-if (!$u || !password_verify($senha, $u['senha_hash'])) {
-    flash('erro', 'Usuário ou senha incorretos.');
-    redirecionar('login.php');
-}
+    if (!$u || !password_verify($senha, $u['senha_hash'])) {
+        flash('erro', 'Usuário ou senha incorretos.');
+        redirecionar('login.php');
+    }
 
-session_regenerate_id(true);
-$_SESSION['usuario_id'] = (int) $u['id'];
+    session_regenerate_id(true);
+    $_SESSION['usuario_id'] = (int) $u['id'];
 
-redirecionar('home.php');
+    redirecionar('home.php');

@@ -1,2 +1,54 @@
+
 <?php
-require __DIR__.'/auth.php';require __DIR__.'/conexao.php';$u=requer_login($pdo);if($_SERVER['REQUEST_METHOD']!=='POST')redirecionar('painel_artista.php');csrf_validar();if($u['tipo']!=='artista')redirecionar('perfil.php');$id=filter_input(INPUT_POST,'id',FILTER_VALIDATE_INT);$s=$pdo->prepare('SELECT capa FROM obras WHERE id=? AND artista_id=?');$s->execute([$id,$u['id']]);$o=$s->fetch();if(!$o){flash('erro','Obra não encontrada.');redirecionar('painel_artista.php');}$pdo->prepare('DELETE FROM obras WHERE id=? AND artista_id=?')->execute([$id,$u['id']]);if($o['capa']&&str_starts_with($o['capa'],'uploads/obras/')){$f=__DIR__.'/'.$o['capa'];if(is_file($f))unlink($f);}flash('ok','Obra excluída.');redirecionar('painel_artista.php');
+
+require __DIR__ . '/auth.php';
+require __DIR__ . '/conexao.php';
+
+$u = requer_login($pdo);
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    redirecionar('painel_artista.php');
+}
+
+csrf_validar();
+
+if ($u['tipo'] !== 'artista') {
+    redirecionar('perfil.php');
+}
+
+$id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+
+$s = $pdo->prepare("
+    SELECT capa
+    FROM obras
+    WHERE id = ? AND artista_id = ?
+");
+
+$s->execute([$id, $u['id']]);
+
+$o = $s->fetch();
+
+if (!$o) {
+    flash('erro', 'Obra não encontrada.');
+    redirecionar('painel_artista.php');
+}
+
+$pdo->prepare("
+    DELETE FROM obras
+    WHERE id = ? AND artista_id = ?
+")->execute([$id, $u['id']]);
+
+if (
+    $o['capa'] &&
+    str_starts_with($o['capa'], 'uploads/obras/')
+) {
+    $f = __DIR__ . '/' . $o['capa'];
+
+    if (is_file($f)) {
+        unlink($f);
+    }
+}
+
+flash('ok', 'Obra excluída.');
+
+redirecionar('painel_artista.php');
